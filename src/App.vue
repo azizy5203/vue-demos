@@ -1,85 +1,48 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { ref, onMounted } from 'vue'
+import formBuilder from './js/formBuilder'
+import FormBuilder from './components/FormBuilder.vue';
+
+
+const fields = ref([])
+
+const builderCompFileds = ref([
+  {
+    type:"text",
+    name:"name",
+    label:"add name",
+    placeholder:"add your name",
+    max:10
+  },
+  {
+    type:"checkbox",
+    name:"isActive",
+    label:"Is Active",
+    value:true,
+  },
+])
+
+
+onMounted(() => {
+  let formFields = new formBuilder()
+
+  formFields.addTextField("name", "add name", "add your name")
+  formFields.addCheckBox("isActive", "Is Active", true)
+
+  formFields = formFields.build()
+
+  fields.value = formFields
+})
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <div v-for="item in fields" class="text-red-500">
+    <label :for="item?.name">{{ item?.label }}</label><br>
+    <input :type="item?.type" :id="item?.name" :name="item?.name" :placeholder="item?.placeholder" :maxlength="item?.max"
+      :checked="item?.value" />
+  </div>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <FormBuilder :fields="builderCompFileds"/>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
-</style>
+<style scoped></style>
