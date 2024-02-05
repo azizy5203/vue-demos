@@ -1,29 +1,30 @@
 export default class Builder {
   constructor() {
-    this.fields = [];
+    this.formFields = [];
   }
 
-  addTextField(name, label, placeholder) {
-    const field = {
+  addTextField(name, label, placeholder, maxLength = 5) {
+    const textField = {
       type: "text",
       name,
       label,
       placeholder,
+      maxLength,
     };
-    this.fields.push(field);
+    this.formFields.push(textField);
   }
 
-  addCheckBox(name, label, initValue = false) {
-    const field = {
+  addCheckbox(name, label, initValue = false) {
+    const checkBox = {
       type: "checkbox",
       name,
       label,
       value: initValue,
     };
-    this.fields.push(field);
+    this.formFields.push(checkBox);
   }
 
   build() {
-    return this.fields;
+    return this.formFields;
   }
 }
