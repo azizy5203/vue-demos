@@ -5,7 +5,7 @@ export default class Adapter {
 
   adapt() {
     const adaptedData = {
-      name: `${this.userData.name.first}  ${this.userData.name.last}`,
+      name: `${this.userData.name.first} ${this.userData.name.last}`,
       img: this.userData.picture.large,
     };
     return adaptedData;
